@@ -10,18 +10,25 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
   formValidation();
 });
-//validacion del formulario 
+//validacion del formulario
 let formValidation = () => {
-  if (textInput.value === ""|| dateInput.value === "" || textarea.value === "") {
+  //se validan las entradas del formulario "ejercicio","dia/mes/año" 
+  if (
+    textInput.value === "" ||
+    dateInput.value === "" ||
+    textarea.value === ""
+  ) {
     console.log("failure");
     msg.innerHTML = "La tarea no puede estar en blanco ";
-    msgDate.innerHTML = "Se debe agregar fecha"
+    msgDate.innerHTML = "Se debe agregar fecha";
     msgText.innerHTML = "Se debe de agregar descripciòn  ";
   } else {
     console.log("success");
     msg.innerHTML = "";
-    msgDate.innerHTML="";
+    msgDate.innerHTML = "";
     msgText.innerHTML = "";
+    // se acepta la data con la funcion y esto se utiliza 
+    //para que modal se cirre automaticamente 
     acceptData();
     add.setAttribute("data-bs-dismiss", "modal");
     add.click();
@@ -33,19 +40,22 @@ let formValidation = () => {
 };
 
 let data = [{}];
-
+//Funcion para subir info al localstorage
 let acceptData = () => {
   data.push({
     text: textInput.value,
     date: dateInput.value,
     description: textarea.value,
   });
-  localStorage.setItem("data", JSON.stringify(data));
+  //es muy importante convertirlo en json
+  localStorage.setItem("Keydata", JSON.stringify(data));
   console.log(data);
+  //se le llama a la funcion creartarea
   createTasks();
 };
-//Se crea funcion de hacer tarea 
+//Se crea funcion para hacer  tarea
 let createTasks = () => {
+  // se busca el div con id en el que se va agregar la tarea
   tasks.innerHTML = "";
   data.map((x, y) => {
     return (tasks.innerHTML += `
@@ -72,7 +82,7 @@ let resetForm = () => {
 let deleteTask = (e) => {
   e.parentElement.parentElement.remove();
   data.splice(e.parentElement.parentElement.id, 1);
-  localStorage.setItem("data", JSON.stringify(data));
+  localStorage.setItem("Keydata", JSON.stringify(data));
   console.log(data);
 };
 let editTask = (e) => {
@@ -84,9 +94,9 @@ let editTask = (e) => {
 
   deleteTask(e);
 };
-//IIFE NEW CONCEPT 
+//IIFE NEW CONCEPT
 (() => {
-  data = JSON.parse(localStorage.getItem("data")) || [];
+  data = JSON.parse(localStorage.getItem("Keydata")) || [];
   console.log(data);
   createTasks();
 })();
