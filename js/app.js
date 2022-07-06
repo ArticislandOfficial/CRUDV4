@@ -94,7 +94,8 @@ let editTask = (e) => {
 
   deleteTask(e);
 };
-//IIFE NEW CONCEPT
+//IIFE NEW CONCEPT 
+// la utilice para poder traer el localstorage 
 (() => {
   data = JSON.parse(localStorage.getItem("Keydata")) || [];
   console.log(data);
